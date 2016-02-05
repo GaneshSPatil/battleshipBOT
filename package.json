@@ -1,0 +1,19 @@
+{
+  "name": "battleshipbot",
+  "version": "1.0.0",
+  "description": "a simple bot that plays battleship game",
+  "main": "play.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaneshSPatil/battleshipBOT.git"
+  },
+  "author": "STEP-2015",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GaneshSPatil/battleshipBOT/issues"
+  },
+  "homepage": "https://github.com/GaneshSPatil/battleshipBOT#readme"
+}
