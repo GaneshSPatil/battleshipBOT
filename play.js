@@ -37,34 +37,35 @@ var setInputValue = function(page, value){
 //------------------------------------------- GAME LOGIC ------------------------------------------------------//
 
 var placesShoot = {};
+var lastHitStatus;
 
 var shoot = function(page){
-
-  var hits = page.evaluate(function(){
-    var hits;
-    $.ajax({
-          async: false,
-          url: 'http://localhost:5000/html/get_updates',
-          type: 'get',
-          success: function (output) {
-            var status = JSON.parse(output);
-            hits = status['gotHit'];
-            setField(status['gotHit']);
-          }
-    });
-    return hits;
-  });
   
-  hits.forEach(function(h){
-    placesShoot[h] = 'hit';
-  });
-
-  var selector = selectMove(placesShoot);
-
-  page.evaluate(function(s, placesShoot){
-    document.querySelector('.targetGridTable #'+s).click(); 
-    placesShoot[s] = 'miss';
+  var selector = selectMove(placesShoot, lastHitStatus);
+  
+  var output = page.evaluate(function(s, p){
+    var placesShoot;
+    var lastHit;
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:5000/html/shoot',
+      data: { position : s},
+      success: function(data){
+          var status = JSON.parse(data);
+          p[s] = status.reply;
+          var obj = {};
+          obj.place = s;
+          obj.status = status.reply;
+          lastHit = obj;
+          placesShoot = p;
+      },
+      async:false
+    });
+    return [placesShoot, lastHit];
   }, selector, placesShoot);
+
+  placesShoot = output[0];
+  lastHitStatus = output[1];
 
   setTimeout(play, 2000, page);
 };

@@ -1,4 +1,5 @@
-module.exports = function(placesShoot){
+module.exports = function(placesShoot, lastHitStatus){
+  console.log(lastHitStatus);
   Object.keys(placesShoot).forEach(function(k){
     console.log(k, '-->', placesShoot[k]);
   });
